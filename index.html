@@ -1,11 +1,13 @@
 <!doctype html>
-<html lang="en"><head>
-<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"><script>window.__resources = {};</script>
+<html lang="en">
+<head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Gemma 4: A Surgical Record</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script>window.__resources = {};</script>
 <style>/* cyrillic-ext */
 @font-face {
   font-family: 'JetBrains Mono';
@@ -1040,6 +1042,73 @@ p + p { text-indent: 1.2em; }
   .stats-strip { grid-template-columns: repeat(2, 1fr); }
   .stats-strip .stat { border-right: none; border-bottom: 1px solid var(--rule); }
 }
+@media (max-width: 520px) {
+  .hero .topbar { flex-direction: column; gap: 4px; }
+  .hero .topbar .right { font-size: 10px; letter-spacing: 0.1em; }
+  .stats-strip { grid-template-columns: 1fr; }
+  .stats-strip .stat { border-right: none; border-bottom: 1px solid var(--rule); }
+}
+
+/* Prevent horizontal overflow from any element wider than the viewport */
+main { overflow-x: clip; }
+
+/* ── Appendix: Internal geometry ─────────────────────────────────────────── */
+#appendix-geometry {
+  margin-top: 100px;
+  padding-top: 48px;
+  border-top: 2px solid var(--ink);
+}
+#appendix-geometry > .kicker { margin-bottom: 1rem; }
+#appendix-geometry > .dek { max-width: 820px; }
+.geo-legend {
+  display: flex;
+  gap: 28px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin: 1.6rem 0 0.8rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--ink-2);
+}
+.geo-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.geo-accordion {
+  border-top: 1px solid var(--rule);
+  margin: 0;
+}
+.geo-accordion + .geo-accordion { margin-top: 0; }
+.geo-summary {
+  display: flex;
+  align-items: baseline;
+  gap: 20px;
+  padding: 14px 0;
+  cursor: pointer;
+  list-style: none;
+  font-family: 'JetBrains Mono', monospace;
+}
+.geo-summary::-webkit-details-marker { display: none; }
+.geo-summary::before {
+  content: "▸";
+  color: var(--terracotta);
+  font-size: 11px;
+  transition: transform 0.15s;
+}
+details[open] > .geo-summary::before { transform: rotate(90deg); }
+.geo-model-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  letter-spacing: 0.03em;
+}
+.geo-model-note {
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+}
+.geo-panel { padding: 0 0 32px; }
 </style>
 </head>
 <body class="dark">
@@ -2002,13 +2071,14 @@ FAIL: server did not start within 180s</div>
 
 
 
+
 <!-- ══════════════════════════════════════════════════════════════════════════
      APPENDIX G: INTERNAL GEOMETRY
      ══════════════════════════════════════════════════════════════════════════ -->
-<section id="appendix-geometry" style="margin-top:100px; padding-top:48px; border-top: 2px solid var(--ink);">
-  <div class="kicker" style="margin-bottom:1rem;">Appendix</div>
+<section id="appendix-geometry">
+  <div class="kicker">Appendix</div>
   <h2><span class="num">A</span> Internal geometry</h2>
-  <p class="dek" style="max-width:820px;">
+  <p class="dek">
     These scans ask one narrow question of each model: feed it the same idea in two
     languages, and somewhere in the stack — if anywhere — do the two representations
     converge? The probe is cosine similarity between paired last-token hidden states,
@@ -2020,70 +2090,29 @@ FAIL: server did not start within 180s</div>
     treat the per-model SHAPE as the signal, not absolute heights.)
   </p>
 
-  <div class="geo-legend" style="display:flex;gap:28px;flex-wrap:wrap;margin:1.6rem 0 0.8rem;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--ink-2);">
+  <div class="geo-legend">
     <span>Series key:</span>
-    <span style="display:flex;align-items:center;gap:6px;">
+    <span class="geo-legend-item">
       <svg width="28" height="10"><line x1="0" y1="5" x2="28" y2="5" stroke="#2F3F52" stroke-width="2"/><circle cx="14" cy="5" r="2" fill="#2F3F52"/></svg>
       same-content cross-lang (fact)
     </span>
-    <span style="display:flex;align-items:center;gap:6px;">
+    <span class="geo-legend-item">
       <svg width="28" height="10"><line x1="0" y1="5" x2="28" y2="5" stroke="#A6852E" stroke-width="2"/><circle cx="14" cy="5" r="2" fill="#A6852E"/></svg>
       same-content cross-lang (poem)
     </span>
-    <span style="display:flex;align-items:center;gap:6px;">
+    <span class="geo-legend-item">
       <svg width="28" height="10"><line x1="0" y1="5" x2="28" y2="5" stroke="#7A2E2E" stroke-width="2"/><circle cx="14" cy="5" r="2" fill="#7A2E2E"/></svg>
       diff-content cross-lang
     </span>
-    <span style="display:flex;align-items:center;gap:6px;">
+    <span class="geo-legend-item">
       <svg width="28" height="10"><line x1="0" y1="5" x2="28" y2="5" stroke="#7C7466" stroke-width="1.5" stroke-dasharray="3 2"/></svg>
       same-lang diff-content (baseline)
     </span>
-    <span style="display:flex;align-items:center;gap:6px;">
+    <span class="geo-legend-item">
       <svg width="28" height="10"><line x1="0" y1="5" x2="28" y2="5" stroke="#5C7A66" stroke-width="2.5"/><circle cx="14" cy="5" r="2.5" fill="#5C7A66"/></svg>
       paraphrase (upper bound)
     </span>
   </div>
-
-  <style>
-  .geo-accordion {
-    border-top: 1px solid var(--rule);
-    margin: 0;
-  }
-  .geo-accordion + .geo-accordion {
-    margin-top: 0;
-  }
-  .geo-summary {
-    display: flex;
-    align-items: baseline;
-    gap: 20px;
-    padding: 14px 0;
-    cursor: pointer;
-    list-style: none;
-    font-family: 'JetBrains Mono', monospace;
-  }
-  .geo-summary::-webkit-details-marker { display: none; }
-  .geo-summary::before {
-    content: "▸";
-    color: var(--terracotta);
-    font-size: 11px;
-    transition: transform 0.15s;
-  }
-  details[open] > .geo-summary::before { transform: rotate(90deg); }
-  .geo-model-name {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--ink);
-    letter-spacing: 0.03em;
-  }
-  .geo-model-note {
-    font-size: 11px;
-    color: var(--muted);
-    letter-spacing: 0.06em;
-  }
-  .geo-panel {
-    padding: 0 0 32px;
-  }
-  </style>
 
 <details class="geo-accordion" id="geo-e4b">
   <summary class="geo-summary">
@@ -2594,37 +2623,37 @@ FAIL: server did not start within 180s</div>
 <circle cx="1052.00" cy="294.36" r="2.2" fill="#7A2E2E"/>
 <line x1="68" x2="86" y1="339" y2="339" stroke="#B85C3D" stroke-width="1.5" stroke-dasharray="4 1.5"/>
 <circle cx="77" cy="339" r="1.4" fill="#B85C3D"/>
-<text x="90" y="342" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN poem ↔ ZH fact (diff lang, diff content)</text>
+<text x="90" y="342" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN poem ↔ ZH fact</text>
 <line x1="68" x2="86" y1="353" y2="353" stroke="#C7BDA9" stroke-width="1.2" stroke-dasharray="3 2"/>
 <circle cx="77" cy="353" r="1.4" fill="#C7BDA9"/>
-<text x="90" y="356" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">ZH fact ↔ poem (same lang, diff content)</text>
+<text x="90" y="356" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">ZH fact ↔ ZH poem (diff)</text>
 <line x1="237" x2="255" y1="339" y2="339" stroke="#7C7466" stroke-width="1.2" stroke-dasharray="3 2"/>
 <circle cx="246" cy="339" r="1.4" fill="#7C7466"/>
-<text x="259" y="342" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN fact ↔ poem (same lang, diff content)</text>
+<text x="259" y="342" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN fact ↔ EN poem (diff)</text>
 <line x1="237" x2="255" y1="353" y2="353" stroke="#E0C680" stroke-width="1.2" stroke-dasharray="4 2"/>
 <circle cx="246" cy="353" r="1.4" fill="#E0C680"/>
-<text x="259" y="356" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">ZH ↔ FR fact (same content)</text>
+<text x="259" y="356" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">ZH ↔ FR fact</text>
 <line x1="405" x2="423" y1="339" y2="339" stroke="#C8A84A" stroke-width="1.4"/>
 <circle cx="414" cy="339" r="1.4" fill="#C8A84A"/>
-<text x="427" y="342" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN ↔ FR poem (same content)</text>
+<text x="427" y="342" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN ↔ FR poem</text>
 <line x1="405" x2="423" y1="353" y2="353" stroke="#8FA5B5" stroke-width="1.4"/>
 <circle cx="414" cy="353" r="1.4" fill="#8FA5B5"/>
-<text x="427" y="356" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN ↔ FR fact (same content)</text>
+<text x="427" y="356" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN ↔ FR fact</text>
 <line x1="574" x2="592" y1="339" y2="339" stroke="#5C7785" stroke-width="1.4"/>
 <circle cx="583" cy="339" r="1.4" fill="#5C7785"/>
-<text x="596" y="342" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN ↔ ZH math (same content)</text>
+<text x="596" y="342" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN ↔ ZH math</text>
 <line x1="574" x2="592" y1="353" y2="353" stroke="#A6852E" stroke-width="1.8"/>
 <circle cx="583" cy="353" r="1.4" fill="#A6852E"/>
-<text x="596" y="356" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN ↔ ZH poem (same content)</text>
+<text x="596" y="356" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN ↔ ZH poem</text>
 <line x1="743" x2="761" y1="339" y2="339" stroke="#2F3F52" stroke-width="1.8"/>
 <circle cx="752" cy="339" r="1.4" fill="#2F3F52"/>
-<text x="765" y="342" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN ↔ ZH fact (same content)</text>
+<text x="765" y="342" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN ↔ ZH fact</text>
 <line x1="743" x2="761" y1="353" y2="353" stroke="#5C7A66" stroke-width="2.0"/>
 <circle cx="752" cy="353" r="1.4" fill="#5C7A66"/>
-<text x="765" y="356" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN fact ↔ paraphrase (same content, same lang)</text>
+<text x="765" y="356" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN fact ↔ EN paraphrase</text>
 <line x1="911" x2="929" y1="339" y2="339" stroke="#7A2E2E" stroke-width="1.8"/>
 <circle cx="920" cy="339" r="1.4" fill="#7A2E2E"/>
-<text x="933" y="342" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN fact ↔ ZH poem (diff lang, diff content)</text>
+<text x="933" y="342" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN fact ↔ ZH poem</text>
 </svg>
 <p class="figcap" id="figGeoE4bL-cap"><b>Fig G1a.</b> Cosine similarity vs baseline by layer, last-token hidden states. Note the sharp polarity shift at layer 24 (post-anchor zone): cross-lang same-content pairs that were weakly positive invert to weakly negative, while the paraphrase signal halves. The anchor zone (L22–L23) is the discontinuity.</p>
 </div>
@@ -3143,37 +3172,37 @@ FAIL: server did not start within 180s</div>
 <circle cx="1052.00" cy="250.12" r="2.2" fill="#7A2E2E"/>
 <line x1="68" x2="86" y1="339" y2="339" stroke="#B85C3D" stroke-width="1.5" stroke-dasharray="4 1.5"/>
 <circle cx="77" cy="339" r="1.4" fill="#B85C3D"/>
-<text x="90" y="342" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN poem ↔ ZH fact (diff lang, diff content)</text>
+<text x="90" y="342" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN poem ↔ ZH fact</text>
 <line x1="68" x2="86" y1="353" y2="353" stroke="#C7BDA9" stroke-width="1.2" stroke-dasharray="3 2"/>
 <circle cx="77" cy="353" r="1.4" fill="#C7BDA9"/>
-<text x="90" y="356" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">ZH fact ↔ poem (same lang, diff content)</text>
+<text x="90" y="356" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">ZH fact ↔ ZH poem (diff)</text>
 <line x1="237" x2="255" y1="339" y2="339" stroke="#7C7466" stroke-width="1.2" stroke-dasharray="3 2"/>
 <circle cx="246" cy="339" r="1.4" fill="#7C7466"/>
-<text x="259" y="342" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN fact ↔ poem (same lang, diff content)</text>
+<text x="259" y="342" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN fact ↔ EN poem (diff)</text>
 <line x1="237" x2="255" y1="353" y2="353" stroke="#E0C680" stroke-width="1.2" stroke-dasharray="4 2"/>
 <circle cx="246" cy="353" r="1.4" fill="#E0C680"/>
-<text x="259" y="356" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">ZH ↔ FR fact (same content)</text>
+<text x="259" y="356" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">ZH ↔ FR fact</text>
 <line x1="405" x2="423" y1="339" y2="339" stroke="#C8A84A" stroke-width="1.4"/>
 <circle cx="414" cy="339" r="1.4" fill="#C8A84A"/>
-<text x="427" y="342" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN ↔ FR poem (same content)</text>
+<text x="427" y="342" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN ↔ FR poem</text>
 <line x1="405" x2="423" y1="353" y2="353" stroke="#8FA5B5" stroke-width="1.4"/>
 <circle cx="414" cy="353" r="1.4" fill="#8FA5B5"/>
-<text x="427" y="356" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN ↔ FR fact (same content)</text>
+<text x="427" y="356" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN ↔ FR fact</text>
 <line x1="574" x2="592" y1="339" y2="339" stroke="#5C7785" stroke-width="1.4"/>
 <circle cx="583" cy="339" r="1.4" fill="#5C7785"/>
-<text x="596" y="342" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN ↔ ZH math (same content)</text>
+<text x="596" y="342" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN ↔ ZH math</text>
 <line x1="574" x2="592" y1="353" y2="353" stroke="#A6852E" stroke-width="1.8"/>
 <circle cx="583" cy="353" r="1.4" fill="#A6852E"/>
-<text x="596" y="356" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN ↔ ZH poem (same content)</text>
+<text x="596" y="356" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN ↔ ZH poem</text>
 <line x1="743" x2="761" y1="339" y2="339" stroke="#2F3F52" stroke-width="1.8"/>
 <circle cx="752" cy="339" r="1.4" fill="#2F3F52"/>
-<text x="765" y="342" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN ↔ ZH fact (same content)</text>
+<text x="765" y="342" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN ↔ ZH fact</text>
 <line x1="743" x2="761" y1="353" y2="353" stroke="#5C7A66" stroke-width="2.0"/>
 <circle cx="752" cy="353" r="1.4" fill="#5C7A66"/>
-<text x="765" y="356" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN fact ↔ paraphrase (same content, same lang)</text>
+<text x="765" y="356" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN fact ↔ EN paraphrase</text>
 <line x1="911" x2="929" y1="339" y2="339" stroke="#7A2E2E" stroke-width="1.8"/>
 <circle cx="920" cy="339" r="1.4" fill="#7A2E2E"/>
-<text x="933" y="342" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN fact ↔ ZH poem (diff lang, diff content)</text>
+<text x="933" y="342" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN fact ↔ ZH poem</text>
 </svg>
 <p class="figcap" id="figGeoE4bM-cap"><b>Fig G1b.</b> Same scan using mean-pooled token representations. The cliff is visible but softened; the cross-lang signals shift from ~0.15 positive (layers 1–22) to near-zero or slightly negative in the consumer zone, rather than inverting sharply. Paraphrase similarity drops from ~0.55 to ~0.44.</p>
 </div>
@@ -3248,7 +3277,7 @@ FAIL: server did not start within 180s</div>
 <text x="1052.00" y="276" font-family="JetBrains Mono" font-size="10" fill="#7C7466" text-anchor="middle">41</text>
 <text x="560" y="298" font-family="JetBrains Mono" font-size="10.5" letter-spacing="1.5" fill="#443D31" text-anchor="middle">layer</text>
 </svg>
-<p class="figcap" id="figGeoE4bD-cap"><b>Fig G1c.</b> Per-layer hidden-state delta magnitude (‖h_L − h_{{L−1}}‖, token-averaged across cosine-scan inputs). Layers 0–1 are the embedding handoff spike; layer 23 shows the anchor-zone encoding burst. Consumer zone (L24–L41) settles to low, stable delta.</p>
+<p class="figcap" id="figGeoE4bD-cap"><b>Fig G1c.</b> Per-layer hidden-state delta magnitude (‖h_L − h_{L−1}‖, token-averaged across cosine-scan inputs). Layers 0–1 are the embedding handoff spike; layer 23 shows the anchor-zone encoding burst. Consumer zone (L24–L41) settles to low, stable delta.</p>
 </div>
 <div class="figure">
 <svg id="geoE4bConf" viewBox="0 0 1080 300" role="img" aria-label="Gemma 4 E4B — per-layer Δ/‖h‖ by confidence group">
@@ -3733,34 +3762,34 @@ FAIL: server did not start within 180s</div>
 <circle cx="1052.00" cy="267.92" r="2.2" fill="#7A2E2E"/>
 <line x1="68" x2="86" y1="339" y2="339" stroke="#B85C3D" stroke-width="1.5" stroke-dasharray="4 1.5"/>
 <circle cx="77" cy="339" r="1.4" fill="#B85C3D"/>
-<text x="90" y="342" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN poem ↔ ZH fact (diff lang, diff content)</text>
+<text x="90" y="342" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN poem ↔ ZH fact</text>
 <line x1="68" x2="86" y1="353" y2="353" stroke="#C7BDA9" stroke-width="1.2" stroke-dasharray="3 2"/>
 <circle cx="77" cy="353" r="1.4" fill="#C7BDA9"/>
-<text x="90" y="356" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">ZH fact ↔ poem (same lang, diff content)</text>
+<text x="90" y="356" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">ZH fact ↔ ZH poem (diff)</text>
 <line x1="270" x2="288" y1="339" y2="339" stroke="#7C7466" stroke-width="1.2" stroke-dasharray="3 2"/>
 <circle cx="279" cy="339" r="1.4" fill="#7C7466"/>
-<text x="292" y="342" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN fact ↔ poem (same lang, diff content)</text>
+<text x="292" y="342" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN fact ↔ EN poem (diff)</text>
 <line x1="270" x2="288" y1="353" y2="353" stroke="#C8A84A" stroke-width="1.4"/>
 <circle cx="279" cy="353" r="1.4" fill="#C8A84A"/>
-<text x="292" y="356" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN ↔ FR poem (same content)</text>
+<text x="292" y="356" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN ↔ FR poem</text>
 <line x1="473" x2="491" y1="339" y2="339" stroke="#8FA5B5" stroke-width="1.4"/>
 <circle cx="482" cy="339" r="1.4" fill="#8FA5B5"/>
-<text x="495" y="342" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN ↔ FR fact (same content)</text>
+<text x="495" y="342" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN ↔ FR fact</text>
 <line x1="473" x2="491" y1="353" y2="353" stroke="#5C7785" stroke-width="1.4"/>
 <circle cx="482" cy="353" r="1.4" fill="#5C7785"/>
-<text x="495" y="356" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN ↔ ZH math (same content)</text>
+<text x="495" y="356" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN ↔ ZH math</text>
 <line x1="675" x2="693" y1="339" y2="339" stroke="#A6852E" stroke-width="1.8"/>
 <circle cx="684" cy="339" r="1.4" fill="#A6852E"/>
-<text x="697" y="342" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN ↔ ZH poem (same content)</text>
+<text x="697" y="342" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN ↔ ZH poem</text>
 <line x1="675" x2="693" y1="353" y2="353" stroke="#2F3F52" stroke-width="1.8"/>
 <circle cx="684" cy="353" r="1.4" fill="#2F3F52"/>
-<text x="697" y="356" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN ↔ ZH fact (same content)</text>
+<text x="697" y="356" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN ↔ ZH fact</text>
 <line x1="878" x2="896" y1="339" y2="339" stroke="#5C7A66" stroke-width="2.0"/>
 <circle cx="887" cy="339" r="1.4" fill="#5C7A66"/>
-<text x="900" y="342" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN fact ↔ paraphrase (same content, same lang)</text>
+<text x="900" y="342" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN fact ↔ EN paraphrase</text>
 <line x1="878" x2="896" y1="353" y2="353" stroke="#7A2E2E" stroke-width="1.8"/>
 <circle cx="887" cy="353" r="1.4" fill="#7A2E2E"/>
-<text x="900" y="356" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN fact ↔ ZH poem (diff lang, diff content)</text>
+<text x="900" y="356" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN fact ↔ ZH poem</text>
 </svg>
 <p class="figcap" id="figGeo26bL-cap"><b>Fig G2a.</b> Cosine similarity by layer for the 26B-A4B (centered last-token states). Noisier than E4B's — cross-language same-content pairs never cleanly separate from the diff-content baselines. Consistent with the surgery finding: this model's capacity lives in expert routing, not in layer-addressable structure, so there's little for a layer-wise probe (or scalpel) to grab.</p>
 </div>
@@ -4472,34 +4501,34 @@ FAIL: server did not start within 180s</div>
 <circle cx="1052.00" cy="270.93" r="2.2" fill="#7A2E2E"/>
 <line x1="68" x2="86" y1="339" y2="339" stroke="#B85C3D" stroke-width="1.5" stroke-dasharray="4 1.5"/>
 <circle cx="77" cy="339" r="1.4" fill="#B85C3D"/>
-<text x="90" y="342" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN poem ↔ ZH fact (diff lang, diff content)</text>
+<text x="90" y="342" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN poem ↔ ZH fact</text>
 <line x1="68" x2="86" y1="353" y2="353" stroke="#C7BDA9" stroke-width="1.2" stroke-dasharray="3 2"/>
 <circle cx="77" cy="353" r="1.4" fill="#C7BDA9"/>
-<text x="90" y="356" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">ZH fact ↔ poem (same lang, diff content)</text>
+<text x="90" y="356" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">ZH fact ↔ ZH poem (diff)</text>
 <line x1="270" x2="288" y1="339" y2="339" stroke="#7C7466" stroke-width="1.2" stroke-dasharray="3 2"/>
 <circle cx="279" cy="339" r="1.4" fill="#7C7466"/>
-<text x="292" y="342" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN fact ↔ poem (same lang, diff content)</text>
+<text x="292" y="342" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN fact ↔ EN poem (diff)</text>
 <line x1="270" x2="288" y1="353" y2="353" stroke="#C8A84A" stroke-width="1.4"/>
 <circle cx="279" cy="353" r="1.4" fill="#C8A84A"/>
-<text x="292" y="356" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN ↔ FR poem (same content)</text>
+<text x="292" y="356" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN ↔ FR poem</text>
 <line x1="473" x2="491" y1="339" y2="339" stroke="#8FA5B5" stroke-width="1.4"/>
 <circle cx="482" cy="339" r="1.4" fill="#8FA5B5"/>
-<text x="495" y="342" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN ↔ FR fact (same content)</text>
+<text x="495" y="342" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN ↔ FR fact</text>
 <line x1="473" x2="491" y1="353" y2="353" stroke="#5C7785" stroke-width="1.4"/>
 <circle cx="482" cy="353" r="1.4" fill="#5C7785"/>
-<text x="495" y="356" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN ↔ ZH math (same content)</text>
+<text x="495" y="356" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN ↔ ZH math</text>
 <line x1="675" x2="693" y1="339" y2="339" stroke="#A6852E" stroke-width="1.8"/>
 <circle cx="684" cy="339" r="1.4" fill="#A6852E"/>
-<text x="697" y="342" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN ↔ ZH poem (same content)</text>
+<text x="697" y="342" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN ↔ ZH poem</text>
 <line x1="675" x2="693" y1="353" y2="353" stroke="#2F3F52" stroke-width="1.8"/>
 <circle cx="684" cy="353" r="1.4" fill="#2F3F52"/>
-<text x="697" y="356" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN ↔ ZH fact (same content)</text>
+<text x="697" y="356" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN ↔ ZH fact</text>
 <line x1="878" x2="896" y1="339" y2="339" stroke="#5C7A66" stroke-width="2.0"/>
 <circle cx="887" cy="339" r="1.4" fill="#5C7A66"/>
-<text x="900" y="342" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN fact ↔ paraphrase (same content, same lang)</text>
+<text x="900" y="342" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN fact ↔ EN paraphrase</text>
 <line x1="878" x2="896" y1="353" y2="353" stroke="#7A2E2E" stroke-width="1.8"/>
 <circle cx="887" cy="353" r="1.4" fill="#7A2E2E"/>
-<text x="900" y="356" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN fact ↔ ZH poem (diff lang, diff content)</text>
+<text x="900" y="356" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN fact ↔ ZH poem</text>
 </svg>
 <p class="figcap" id="figGeo31bL-cap"><b>Fig G6a.</b> Gemma 4 31B cosine geometry (centered, 60 layers, full probe set). The curves stay bunched near the top through most of the stack and only fan out past L50, the math pair holding cross-language similarity longest — a denser, cleaner version of the E4B story.</p>
 </div>
@@ -4837,22 +4866,22 @@ FAIL: server did not start within 180s</div>
 <circle cx="1052.00" cy="238.35" r="2.2" fill="#7A2E2E"/>
 <line x1="68" x2="86" y1="339" y2="339" stroke="#B85C3D" stroke-width="1.5" stroke-dasharray="4 1.5"/>
 <circle cx="77" cy="339" r="1.4" fill="#B85C3D"/>
-<text x="90" y="342" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN poem ↔ ZH fact (diff lang, diff content)</text>
+<text x="90" y="342" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN poem ↔ ZH fact</text>
 <line x1="68" x2="86" y1="353" y2="353" stroke="#C7BDA9" stroke-width="1.2" stroke-dasharray="3 2"/>
 <circle cx="77" cy="353" r="1.4" fill="#C7BDA9"/>
-<text x="90" y="356" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">ZH fact ↔ poem (same lang, diff content)</text>
+<text x="90" y="356" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">ZH fact ↔ ZH poem (diff)</text>
 <line x1="405" x2="423" y1="339" y2="339" stroke="#7C7466" stroke-width="1.2" stroke-dasharray="3 2"/>
 <circle cx="414" cy="339" r="1.4" fill="#7C7466"/>
-<text x="427" y="342" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN fact ↔ poem (same lang, diff content)</text>
+<text x="427" y="342" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN fact ↔ EN poem (diff)</text>
 <line x1="405" x2="423" y1="353" y2="353" stroke="#A6852E" stroke-width="1.8"/>
 <circle cx="414" cy="353" r="1.4" fill="#A6852E"/>
-<text x="427" y="356" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN ↔ ZH poem (same content)</text>
+<text x="427" y="356" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN ↔ ZH poem</text>
 <line x1="743" x2="761" y1="339" y2="339" stroke="#2F3F52" stroke-width="1.8"/>
 <circle cx="752" cy="339" r="1.4" fill="#2F3F52"/>
-<text x="765" y="342" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN ↔ ZH fact (same content)</text>
+<text x="765" y="342" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN ↔ ZH fact</text>
 <line x1="743" x2="761" y1="353" y2="353" stroke="#7A2E2E" stroke-width="1.8"/>
 <circle cx="752" cy="353" r="1.4" fill="#7A2E2E"/>
-<text x="765" y="356" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN fact ↔ ZH poem (diff lang, diff content)</text>
+<text x="765" y="356" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN fact ↔ ZH poem</text>
 </svg>
 <p class="figcap" id="figGeoNan-cap"><b>Fig G3.</b> NanBeige cosine geometry (6 probe pairs; no FR/math/paraphrase in this scan). The extreme is concentrated at L3: cross-language same-content poem similarity peaks at +0.92 while same-language diff-content (ZH) plunges to −0.99 — the sharpest single-layer multilingual clustering of any model here. It decays through the early layers rather than persisting, suggesting dense, shallow concept encoding.</p>
 </div>
@@ -5048,22 +5077,22 @@ FAIL: server did not start within 180s</div>
 <circle cx="1052.00" cy="276.50" r="2.2" fill="#7A2E2E"/>
 <line x1="68" x2="86" y1="339" y2="339" stroke="#B85C3D" stroke-width="1.5" stroke-dasharray="4 1.5"/>
 <circle cx="77" cy="339" r="1.4" fill="#B85C3D"/>
-<text x="90" y="342" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN poem ↔ ZH fact (diff lang, diff content)</text>
+<text x="90" y="342" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN poem ↔ ZH fact</text>
 <line x1="68" x2="86" y1="353" y2="353" stroke="#C7BDA9" stroke-width="1.2" stroke-dasharray="3 2"/>
 <circle cx="77" cy="353" r="1.4" fill="#C7BDA9"/>
-<text x="90" y="356" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">ZH fact ↔ poem (same lang, diff content)</text>
+<text x="90" y="356" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">ZH fact ↔ ZH poem (diff)</text>
 <line x1="405" x2="423" y1="339" y2="339" stroke="#7C7466" stroke-width="1.2" stroke-dasharray="3 2"/>
 <circle cx="414" cy="339" r="1.4" fill="#7C7466"/>
-<text x="427" y="342" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN fact ↔ poem (same lang, diff content)</text>
+<text x="427" y="342" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN fact ↔ EN poem (diff)</text>
 <line x1="405" x2="423" y1="353" y2="353" stroke="#A6852E" stroke-width="1.8"/>
 <circle cx="414" cy="353" r="1.4" fill="#A6852E"/>
-<text x="427" y="356" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN ↔ ZH poem (same content)</text>
+<text x="427" y="356" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN ↔ ZH poem</text>
 <line x1="743" x2="761" y1="339" y2="339" stroke="#2F3F52" stroke-width="1.8"/>
 <circle cx="752" cy="339" r="1.4" fill="#2F3F52"/>
-<text x="765" y="342" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN ↔ ZH fact (same content)</text>
+<text x="765" y="342" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN ↔ ZH fact</text>
 <line x1="743" x2="761" y1="353" y2="353" stroke="#7A2E2E" stroke-width="1.8"/>
 <circle cx="752" cy="353" r="1.4" fill="#7A2E2E"/>
-<text x="765" y="356" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN fact ↔ ZH poem (diff lang, diff content)</text>
+<text x="765" y="356" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN fact ↔ ZH poem</text>
 </svg>
 <p class="figcap" id="figGeoCPM46-cap"><b>Fig G4.</b> MiniCPM v4.6 cosine geometry. Cross-language same-content pairs reach moderate positive similarity (~0.54 peak, L5–6); diff-content cross-language pairs stay strongly negative (−0.75 to −0.90), clean separation. Note the embedding-layer (L−1) anomaly: same-content pairs are most dissimilar at the embedding — a tokenizer-level language divergence the network resolves upward.</p>
 </div>
@@ -5263,22 +5292,22 @@ FAIL: server did not start within 180s</div>
 <circle cx="1052.00" cy="258.56" r="2.2" fill="#7A2E2E"/>
 <line x1="68" x2="86" y1="339" y2="339" stroke="#B85C3D" stroke-width="1.5" stroke-dasharray="4 1.5"/>
 <circle cx="77" cy="339" r="1.4" fill="#B85C3D"/>
-<text x="90" y="342" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN poem ↔ ZH fact (diff lang, diff content)</text>
+<text x="90" y="342" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN poem ↔ ZH fact</text>
 <line x1="68" x2="86" y1="353" y2="353" stroke="#C7BDA9" stroke-width="1.2" stroke-dasharray="3 2"/>
 <circle cx="77" cy="353" r="1.4" fill="#C7BDA9"/>
-<text x="90" y="356" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">ZH fact ↔ poem (same lang, diff content)</text>
+<text x="90" y="356" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">ZH fact ↔ ZH poem (diff)</text>
 <line x1="405" x2="423" y1="339" y2="339" stroke="#7C7466" stroke-width="1.2" stroke-dasharray="3 2"/>
 <circle cx="414" cy="339" r="1.4" fill="#7C7466"/>
-<text x="427" y="342" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN fact ↔ poem (same lang, diff content)</text>
+<text x="427" y="342" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN fact ↔ EN poem (diff)</text>
 <line x1="405" x2="423" y1="353" y2="353" stroke="#A6852E" stroke-width="1.8"/>
 <circle cx="414" cy="353" r="1.4" fill="#A6852E"/>
-<text x="427" y="356" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN ↔ ZH poem (same content)</text>
+<text x="427" y="356" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN ↔ ZH poem</text>
 <line x1="743" x2="761" y1="339" y2="339" stroke="#2F3F52" stroke-width="1.8"/>
 <circle cx="752" cy="339" r="1.4" fill="#2F3F52"/>
-<text x="765" y="342" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN ↔ ZH fact (same content)</text>
+<text x="765" y="342" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN ↔ ZH fact</text>
 <line x1="743" x2="761" y1="353" y2="353" stroke="#7A2E2E" stroke-width="1.8"/>
 <circle cx="752" cy="353" r="1.4" fill="#7A2E2E"/>
-<text x="765" y="356" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN fact ↔ ZH poem (diff lang, diff content)</text>
+<text x="765" y="356" font-family="JetBrains Mono" font-size="9.5" fill="#443D31">EN fact ↔ ZH poem</text>
 </svg>
 <p class="figcap" id="figGeoCPM5-cap"><b>Fig G5.</b> MiniCPM v5 cosine geometry. A concentrated spike at L4 (same-content poem → +0.90; poem-vs-fact → −0.97) — the NanBeige pattern, sharper: a single-layer burst of multilingual discrimination, then decay. The same-content fact signal is weaker than v4.6's, suggesting whatever sharpened poem alignment traded off fact alignment.</p>
 </div>
@@ -5286,6 +5315,8 @@ FAIL: server did not start within 180s</div>
 </details>
 
 </section>
+
+
 
 
 
