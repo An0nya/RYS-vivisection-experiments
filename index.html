@@ -1731,7 +1731,7 @@ FAIL: server did not start within 180s</div>
 <section data-screen-label="10 Larger specimen">
   <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap;">
     <h2 style="margin: 0;"><span class="num">§9</span>The larger specimen: a mixture-of-experts</h2>
-    <span class="status-badge">Sweep complete · 94 configs · a clean negative</span>
+    <span class="status-badge">Two sweeps · math + domain · compliance, not capability</span>
   </div>
   <p class="dek" style="margin-top: 1.2rem;">
     Everything above is Gemma-4-E4B — four billion parameters, forty-two layers,
@@ -1846,9 +1846,7 @@ FAIL: server did not start within 180s</div>
 
   <div style="margin-top:2.8rem;">
 <p>
-        <strong>The surgery.</strong> The scans suggested interesting structure.
-        The surgery found something simpler, and more useful: on this model, the
-        scalpel has nothing to cut.
+        <strong>The surgery.</strong> The scans suggested interesting structure; the surgery found something more humbling, and more useful. On this model the scalpel never reaches reasoning at all — it acts only on the output path.
       </p>
       <p>
         A full sweep ran on the 26B-A4B — the same hard-math battery as E4B, this
@@ -1856,8 +1854,7 @@ FAIL: server did not start within 180s</div>
         MLX scan checkpoint. Ninety-four configurations: single-layer dups and prunes
         across every sliding position, adjacent-pair dups, multi-layer prunes,
         global-layer surgery, prune-plus-dup combinations. Under strict scoring the
-        result is a flat line. <strong>Not one configuration beats baseline on actual
-        correctness.</strong> The best, <span class="mono">prune_12</span>, lands at
+        result is a flat line. <strong>Not one configuration beats baseline on hard-arithmetic correctness.</strong> The best, <span class="mono">prune_12</span>, lands at
         +0.006 — statistical zero.
       </p>
       <p>
@@ -1867,8 +1864,7 @@ FAIL: server did not start within 180s</div>
         model stops emitting parseable numbers — null rates climb to 40–56% on the
         heavier dups, and every adjacent-pair dup floors out. There is no single
         catastrophic anchor here, as the architecture predicted; the catastrophe is
-        smeared uniformly across every duplication. <strong>Pruning is the wrong axis,
-        not harmful.</strong> Removing a mid-stack layer doesn't break the model — it
+        smeared uniformly across every duplication. <strong>Pruning doesn't break it.</strong> Removing a mid-stack layer doesn't break the model — it
         makes it <em>more</em> fluent. <span class="mono">prune_13</span> cures the
         baseline's "Answer: Answer:" loop and emits clean, comma-grouped,
         magnitude-correct numbers that are wrong in the middle digits. Null drops from
@@ -1892,11 +1888,33 @@ FAIL: server did not start within 180s</div>
   </div>
 
       <p>
-        One caveat the math battery can't settle alone: whether the MoE breaks
-        <em>uniformly</em> or just goes confidently-wrong on arithmetic while holding
-        elsewhere. A second sweep — the emotion-attribution and multiple-choice probes
-        that split E4B into archetypes — is running as this is written. Results pending;
-        the prediction is uniform breakage, but the prediction is cheap.
+        A second sweep — emotion-attribution and multiple-choice probes — was meant
+        to confirm uniform breakage. It did the opposite. On multiple-choice factual
+        recall, pruning is dramatic: fifteen configurations beat baseline at
+        <span class="mono">t ≥ 2</span>, the best lifting accuracy from 0.30 to
+        near-perfect. The raw responses explain why. The base model often "answers" a
+        multiple-choice question with a single character — <span class="mono">:</span> —
+        and scores zero. It isn't getting the question wrong; it isn't answering. Prune
+        one mid-stack layer and the same model emits a clean, correct letter. The
+        knowledge was always there; it just wasn't coming out.
+      </p>
+      <p>
+        That reconciles the two halves. Layer surgery here is an
+        <strong>output-compliance fix, not a reasoning fix.</strong> Where the latent
+        capability already exists — factual recall — the unclogged output is correct and
+        the gain is real. Where it doesn't — sixteen-digit arithmetic — the unclogged
+        output is confident and wrong, the same well-formatted garbage the grader rewarded
+        in §3. The math phantom and the multiple-choice win are the same intervention,
+        read against different knowledge.
+      </p>
+      <p>
+        A note on mechanism: this is probably not the quantization breaking the
+        output — large models tolerate aggressive quants well, and the load-bearing layers
+        (embeddings, attention) sit at higher precision in this mix. It reads more like
+        pruning suppressing the model's tendency to hedge and deliberate instead of
+        committing: asked a multiple-choice question the base model stalls on a
+        <span class="mono">:</span>; remove a mid-stack layer and it commits the answer it
+        already had.
       </p>
       <p>
         Why the dense sibling and the MoE diverge maps cleanly onto Ng's own framing.
@@ -1907,8 +1925,7 @@ FAIL: server did not start within 180s</div>
         in contiguous layers; it scatters it across 256 experts, eight live per token,
         chosen fresh by a router. There is no whole-recipe-twice when the recipe is a
         different subset of cooks every step. <em>"Every architecture has its own
-        neuroanatomy,"</em> Ng writes. This one keeps its talent on an axis the scalpel
-        can't reach by the layer.
+        neuroanatomy,"</em> Ng writes. On this one, the surgery reaches the throat, not the brain.
       </p>
       <p>
         Which points at the next instrument. If the capacity lives in the experts, the
