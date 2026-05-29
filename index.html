@@ -807,6 +807,7 @@ ul.walkback li::before {
 .tag .sw { display: inline-block; width: 12px; height: 12px; border-radius: 2px; }
 
 /* tables */
+.tbl-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
 .tbl { width: 100%; border-collapse: collapse; font-family: 'JetBrains Mono', monospace; font-size: 13px; }
 .tbl th, .tbl td { padding: 8px 10px; text-align: left; border-bottom: 1px solid var(--rule-2); }
 .tbl th { font-weight: 600; color: var(--ink); text-transform: uppercase; font-size: 10.5px; letter-spacing: 0.12em; border-bottom: 1px solid var(--ink); }
@@ -1332,7 +1333,7 @@ details[open] > .geo-summary::before { transform: rotate(90deg); }
   </div>
 
   <h3 style="margin-top:2.4rem">Real winners (strict_t, n=247)</h3>
-  <table class="tbl">
+  <div class="tbl-wrap"><table class="tbl">
     <thead><tr>
       <th>Config</th>
       <th>Operation</th>
@@ -1406,10 +1407,10 @@ details[open] > .geo-summary::before { transform: rotate(90deg); }
       <td class="num">-0.16</td>
       <td>qualitative-clean win</td>
     </tr></tbody>
-  </table>
+  </table></div>
 
   <h3 style="margin-top:2.6rem">The catastrophic floor</h3>
-  <table class="tbl">
+  <div class="tbl-wrap"><table class="tbl">
     <thead><tr>
       <th>Config</th>
       <th>Operation</th>
@@ -1483,7 +1484,7 @@ details[open] > .geo-summary::before { transform: rotate(90deg); }
       <td class="num neg">78.1%</td>
       <td>severs writer→consumer handoff</td>
     </tr></tbody>
-  </table>
+  </table></div>
 </section>
 
 
