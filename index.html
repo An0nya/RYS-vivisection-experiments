@@ -3,7 +3,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,500&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"><script>window.__resources = {};</script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Gemma-4-E4B: A Surgical Record</title>
+<title>Gemma 4: A Surgical Record</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com">
 <style>/* cyrillic-ext */
@@ -1049,16 +1049,19 @@ p + p { text-indent: 1.2em; }
 <section class="hero" data-screen-label="01 Hero">
   <div class="topbar">
     <div><span class="dot"></span>Lab notebook · Anya · May 2026</div>
-    <div class="right">n=247 configurations · 15&nbsp;seeds × 16&nbsp;probes · IQ4_XS</div>
+    <div class="right">n=247 configurations · 15&nbsp;seeds × 16&nbsp;probes · IQ4_XS · plus a 30-layer MoE sibling</div>
   </div>
 
   <div class="kicker" style="margin-top:2.4rem">A surgical record</div>
-  <h1>Gemma&nbsp;4&nbsp;E4B,<br><em>opened up at every layer</em>.</h1>
+  <h1>Gemma&nbsp;4,<br><em>opened up at every layer</em>.</h1>
   <p class="dek">
-    A 42-layer language model is duplicated, pruned, swapped and recombined
-    one residual block at a time. Most of these surgeries make it worse.
-    A few make it better. The pattern of which-is-which turns out to be
+    A 42-layer language model — Gemma 4 E4B — is duplicated, pruned, swapped
+    and recombined one residual block at a time. Most of these surgeries make it
+    worse. A few make it better, and the pattern of which-is-which turns out to be
     almost entirely explained by where the model stashes its keys and values.
+    Then the same scalpel meets a larger, stranger patient — the 26B-A4B
+    mixture-of-experts — which refuses to respond the way the dense sibling does.
+    <em>Why</em> it refuses is the most useful thing the bigger specimen has to teach.
   </p>
 
   <div class="stats-strip">
@@ -1073,7 +1076,7 @@ p + p { text-indent: 1.2em; }
     <div class="label">Provenance</div>
     <div class="body">
       <p>
-        On <span class="mono">April 11, 2026</span>, a <a href="https://huggingface.co/google/gemma-4-31B-it/discussions/60">discussion thread</a> opened on the Gemma 4 31B model card. A user asked, hopefully, if someone with the necessary hardware could please run David Ng's RYS layer-duplication technique on the model. The RYS author replied from a tropical island that it would need about <span class="mono">40 H100-hours</span> of testing time, and that he'd get to it eventually. The thread quieted on <span class="mono">April 27</span> with no follow-up and no model.
+        On <span class="mono">April 11, 2026</span>, a <a href="https://huggingface.co/google/gemma-4-31B-it/discussions/60">discussion thread</a> opened on the Gemma 4 31B model card: could someone with the hardware run David Ng's RYS layer-duplication technique on it? Ng — who created RYS and rode it to the top of the open LLM leaderboard — estimated about <span class="mono">40 H100-hours</span> and said he'd get to it when compute allowed. The thread went quiet; the 31B never got its surgery. <em>(Ng has since returned to RYS on the current model generation — see his 2026 retrospective, linked below.)</em>
       </p>
       <p>
         Meanwhile — across April and May — this experiment ran on a Mac Mini M4 with 16&nbsp;GB of unified memory, sweeping 247 surgical configurations on the smaller E4B sibling. It is the first known working RYS sweep on the Gemma 4 family — unblocked by reverse-engineering three undocumented per-layer metadata arrays that the upstream tooling silently leaves stale after a duplication. The original technique was for somebody with H100s. This one was for somebody with a kitchen.
@@ -1725,10 +1728,10 @@ FAIL: server did not start within 180s</div>
 
 
 <!-- ─── §9 POSTPOSTSCRIPT ──────────────────────────────────────────── -->
-<section data-screen-label="10 Postpostscript">
+<section data-screen-label="10 Larger specimen">
   <div style="display: flex; align-items: baseline; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap;">
-    <h2 style="margin: 0;"><span class="num">§9</span>P.P.S.: a larger specimen</h2>
-    <span class="status-badge">Preliminary · probe only · no sweep yet</span>
+    <h2 style="margin: 0;"><span class="num">§9</span>The larger specimen: a mixture-of-experts</h2>
+    <span class="status-badge">Sweep complete · 94 configs · a clean negative</span>
   </div>
   <p class="dek" style="margin-top: 1.2rem;">
     Everything above is Gemma-4-E4B — four billion parameters, forty-two layers,
@@ -1826,12 +1829,84 @@ FAIL: server did not start within 180s</div>
         different from the middle third of the network.
       </p>
       <p>
-        Whether any of this makes the 26B a better or worse surgical candidate
-        than the E4B is an open question. The writer/consumer zone framework
-        from §7 was derived from E4B's forty-two layers and its specific
-        shared-KV routing. A thirty-layer model without that bottleneck is a
-        different organism. The scans suggest it has interesting structure.
-        What surgery finds there is a different notebook.
+        <strong>The surgery.</strong> The scans suggested interesting structure.
+        The surgery found something simpler, and more useful: on this model, the
+        scalpel has nothing to cut.
+      </p>
+      <p>
+        A full sweep ran on the 26B-A4B — the same hard-math battery as E4B, this
+        time on an <span class="mono">IQ3_XS</span> llama.cpp build rather than the
+        MLX scan checkpoint. Ninety-four configurations: single-layer dups and prunes
+        across every sliding position, adjacent-pair dups, multi-layer prunes,
+        global-layer surgery, prune-plus-dup combinations. Under strict scoring the
+        result is a flat line. <strong>Not one configuration beats baseline on actual
+        correctness.</strong> The best, <span class="mono">prune_12</span>, lands at
+        +0.006 — statistical zero.
+      </p>
+      <p>
+        Two failure modes, both mechanical. <strong>Duplication corrupts routing.</strong>
+        Duplicating a layer in a mixture-of-experts re-runs its router and re-applies
+        expert selection over a residual stream never calibrated to see it twice. The
+        model stops emitting parseable numbers — null rates climb to 40–56% on the
+        heavier dups, and every adjacent-pair dup floors out. There is no single
+        catastrophic anchor here, as the architecture predicted; the catastrophe is
+        smeared uniformly across every duplication. <strong>Pruning is the wrong axis,
+        not harmful.</strong> Removing a mid-stack layer doesn't break the model — it
+        makes it <em>more</em> fluent. <span class="mono">prune_13</span> cures the
+        baseline's "Answer: Answer:" loop and emits clean, comma-grouped,
+        magnitude-correct numbers that are wrong in the middle digits. Null drops from
+        25% to zero; strict-correct nudges <em>down</em>. It trades refusal for
+        confident error.
+      </p>
+      <p>
+        And so — for the second time in this notebook — the partial-credit grader lied.
+        On E4B it inflated close-but-wrong dups (§3). On the 26B it crowned
+        <span class="mono">prune_13</span> and <span class="mono">prune_14</span> as the
+        standout "winners" at +5.3 and +4.3 partial-t — both of which evaporate to zero
+        under strict equality. The two largest grader-gaming gaps in the whole project
+        belong to these phantom champions. Whatever layer surgery does to this MoE, it
+        acts only on <em>output compliance</em> — willingness to emit a number — which
+        the partial grader mistakes for capability.
+      </p>
+      <p>
+        One caveat the math battery can't settle alone: whether the MoE breaks
+        <em>uniformly</em> or just goes confidently-wrong on arithmetic while holding
+        elsewhere. A second sweep — the emotion-attribution and multiple-choice probes
+        that split E4B into archetypes — is running as this is written. Results pending;
+        the prediction is uniform breakage, but the prediction is cheap.
+      </p>
+      <p>
+        Why the dense sibling and the MoE diverge maps cleanly onto Ng's own framing.
+        His retrospective argues a transformer's functional anatomy differentiates as it
+        scales, and that RYS works by photocopying an indivisible mid-network circuit and
+        running it twice. Dense E4B <em>has</em> such circuits — the two-zone mechanism of
+        §1–§7 is exactly that picture. But a mixture-of-experts doesn't keep its capacity
+        in contiguous layers; it scatters it across 256 experts, eight live per token,
+        chosen fresh by a router. There is no whole-recipe-twice when the recipe is a
+        different subset of cooks every step. <em>"Every architecture has its own
+        neuroanatomy,"</em> Ng writes. This one keeps its talent on an axis the scalpel
+        can't reach by the layer.
+      </p>
+      <p>
+        Which points at the next instrument. If the capacity lives in the experts, the
+        surgery has to as well — operating on the expert axis instead of the layer stack.
+        Two candidates, and which one wins is genuinely open. <strong>REAP</strong> prunes
+        low-utility experts outright; <strong>SEC</strong> (specialized expert cloning)
+        leaves the size alone and overwrites a layer's least-used "junk" expert with a
+        byte-copy of its most specialized one, biasing the router toward a capability with
+        no training at all.
+      </p>
+      <p>
+        There's already a taste of the second — on a different patient. XpressAI published
+        a logic-tuned SEC variant of Qwen3.6-35B-A3B but never shipped the method, and the
+        repository is gone. It didn't need shipping: because router weights stay
+        full-precision through quantization, the entire clone map — which expert was copied
+        onto which, across 39 of its 40 layers — falls straight out of a byte-diff between
+        their model and the stock one. Recovered, replayed onto a 2-bit quant that actually
+        fits the kitchen, and the cloned model held together: stable, coherent, and visibly
+        more willing to push through a causal-reasoning prompt where the untouched model
+        looped and timed out. Cautiously promising. Whether the expert axis pays off on
+        <em>Gemma's</em> MoE — by cloning, pruning, or some hybrid — is the next notebook.
       </p>
     </div>
   </div>
@@ -1856,7 +1931,7 @@ FAIL: server did not start within 180s</div>
     <p><strong>Method.</strong> Gemma-4-E4B-it, IQ4_XS quantization, llama.cpp. Layer surgery via the <span class="mono">layer_path.py</span> + per-layer-array reindexer (SWP, PLE token-embd, PLE model-proj). 16 hard-math probes, 15 seeds at temperature 0.3, base completion (no chat template, no system prompt). Paired-t against in-run baseline. Strict regrade: exact-equality + order-of-magnitude graders, on the verbose responses preserved from the original sweep.</p>
     <p style="margin-top:1rem"><strong>References.</strong></p>
     <ol>
-      <li>David Ng (dnhkng). <em>RYS &amp; RYS-II</em>, sapir-whorf and rys posts on dnhkng.github.io — the original "Repeat Yourself, Stupid" technique. Stalled publicly on Gemma 4 31B over the per-layer-array problem; the reindexer here solves that case.</li>
+      <li>David Ng (dnhkng). <em>RYS &amp; RYS-II</em>, sapir-whorf and rys posts on dnhkng.github.io — the original "Repeat Your Self" technique. Stalled publicly on Gemma 4 31B over the per-layer-array problem; the reindexer here solves that case.</li>
       <li>Maarten Grootendorst. <em>A Visual Guide to Gemma 4.</em> The shared-KV routing and global/sliding pattern aren't documented in Google's model card; this guide is the reference.</li>
       <li>Google. <em>google/gemma-4-E4B</em> on HuggingFace. The architecture in question.</li>
       <li>HF transformers <span class="mono">modeling_gemma4.py</span> lines 1183–1188 — the actual routing rule for shared_kv_states, read by hand to identify the two sole anchors.</li>
