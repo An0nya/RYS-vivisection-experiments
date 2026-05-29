@@ -1908,13 +1908,7 @@ FAIL: server did not start within 180s</div>
         read against different knowledge.
       </p>
       <p>
-        A note on mechanism: this is probably not the quantization breaking the
-        output — large models tolerate aggressive quants well, and the load-bearing layers
-        (embeddings, attention) sit at higher precision in this mix. It reads more like
-        pruning suppressing the model's tendency to hedge and deliberate instead of
-        committing: asked a multiple-choice question the base model stalls on a
-        <span class="mono">:</span>; remove a mid-stack layer and it commits the answer it
-        already had.
+        A note on mechanism: this is probably not the quantization breaking the output — large models tolerate aggressive quants well, and the load-bearing layers (embeddings, attention) sit at higher precision in this mix. The likelier culprit is the scaffolding itself. These probes force a bare, no-chain-of-thought completion on a few tokens of budget — no room to deliberate — and the model balks, stalling on a <span class="mono">:</span> rather than committing. Pruning a mid-stack layer relaxes the balk: the same model, denied the same thinking space, now commits the answer it already had. The surgery doesn't make it smarter; it makes it answer.
       </p>
       <p>
         Why the dense sibling and the MoE diverge maps cleanly onto Ng's own framing.
